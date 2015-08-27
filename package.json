@@ -1,0 +1,22 @@
+{
+  "name": "mobile-router.js-sample",
+  "version": "1.0.0",
+  "description": "A mobile-router.js demo like ui-router",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dolymood/mobile-router.js-sample.git"
+  },
+  "keywords": [
+    "mobile-router.js sample",
+    "mobile-router.js demo",
+    "mobile-router.js",
+    "mobile-router",
+    "javascript"
+  ],
+  "author": "dolymood",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dolymood/mobile-router.js-sample/issues"
+  },
+  "homepage": "https://github.com/dolymood/mobile-router.js-sample"
+}

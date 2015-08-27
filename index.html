@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mobile-router.js sample</title>
+	<meta name="keywords" content="mobile-router, mobile-router.js, single page app framework,spa framework,mobile spa framework,single page app bone,spa bone,mobile spa bone,轻量级web端单页面骨架,移动web端单页面框架,单页面框架,单页面骨架">
+	<meta name="description" content="Lightweight single page bone for mobile web App.轻量级web端单页面骨架">
+	<!-- viewport 设置 -->
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<!-- 允许全屏模式 -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<!-- 设置状态栏颜色 -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<!-- 主屏标题 -->
+	<meta name="apple-mobile-web-app-title" content="M demo">
+	<!-- 忽略自动识别电话号码 -->
+	<meta content="telephone=no" name="format-detection">
+	<!-- 忽略识别邮箱 -->
+	<meta content="email=no" name="format-detection">
+	<!-- 智能 app 广告条 -->
+	<!-- <meta name="apple-itunes-app" content="app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL">  -->
+
+	<!-- 针对手持设备优化，主要是针对一些老的不识别 viewport 的浏览器，比如黑莓 -->
+	<meta name="HandheldFriendly" content="true">
+	<!-- 微软的老式浏览器 -->
+	<meta name="MobileOptimized" content="320">
+	<!-- uc 强制竖屏 -->
+	<meta name="screen-orientation" content="portrait">
+	<!-- QQ 强制竖屏 -->
+	<meta name="x5-orientation" content="portrait">
+	<!-- UC 强制全屏 -->
+	<meta name="full-screen" content="yes">
+	<!-- QQ 强制全屏 -->
+	<meta name="x5-fullscreen" content="true">
+	<!-- UC 应用模式 -->
+	<meta name="browsermode" content="application">
+	<!-- QQ 应用模式 -->
+	<meta name="x5-page-mode" content="app">
+	<!-- windows phone 点击无高光 -->
+	<meta name="msapplication-tap-highlight" content="no">
+	<!-- 避免百度这样的玩意转码 -->
+	<meta http-equiv="Cache-Control" content="no-siteapp">
+
+	<link rel="stylesheet" type="text/css" href="/css/m.css">
+	<link rel="stylesheet" type="text/css" href="/css/m.animate.css">
+	<link rel="stylesheet" type="text/css" href="/css/app.css">
+	<script type="text/javascript" src="/js/lib/zepto.min.js"></script>
+	<base href="/">
+</head>
+<body>
+	<div class="header">
+		<div class="container">
+			<a href="" class="brand">mobile-router.js</a>
+			<ul class="nav">
+				<li><a href="contacts">Contacts</a>
+				<li><a href="about">About</a>
+			</ul>
+			<p id="hint"></p>
+		</div>
+	</div>
+	<div class="bdy">
+		<div class="container"></div>
+	</div>
+	<script type="text/javascript" src="/js/lib/m.js"></script>
+	<script type="text/javascript" src="/js/app/app.js"></script>
+	<script type="text/javascript" src="/js/app/contactsService.js"></script>
+	<script type="text/javascript" src="/js/app/home.js"></script>
+	<script type="text/javascript" src="/js/app/contacts.js"></script>
+	<script type="text/javascript" src="/js/app/contact.js"></script>
+	<script type="text/javascript" src="/js/app/contact-item.js"></script>
+	<script type="text/javascript" src="/js/app/contact-edit.js"></script>
+	<script type="text/javascript" src="/js/app/about.js"></script>
+	<script type="text/javascript" src="/js/app/main.js"></script>
+</body>
+</html>
