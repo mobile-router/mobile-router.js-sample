@@ -1,7 +1,7 @@
 ;(function() {
 
 	function getTemplate() {
-		var contactItem = app.contactsService.currentContactItem();
+		var contactItem = app.contactsService.currentContactItem(this.params.itemId);
 		return [
 			'<h3>' + contactItem.type + '<a href="#">Done</a></h3>',
 			'<input type="text" value="' + contactItem.value + '">'

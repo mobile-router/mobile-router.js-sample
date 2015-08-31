@@ -18,6 +18,14 @@ $(function() {
 			callback: app.about.controller,
 			onDestroy: app.about.destroy
 		},
+		{
+			path: '/redirectTo/:rtPath',
+			redirectPushState: false,
+			redirectTo: function(rtPath) {
+				console.log('redirectTo', arguments, this);
+				return '/' + rtPath;
+			}
+		},
 		// contacts
 		{
 			path: '/contacts',
@@ -25,17 +33,30 @@ $(function() {
 			onEnter: app.contacts.onEnter,
 			onLeave: app.contacts.onLeave,
 			callback: app.contacts.controller,
-			onDestroy: app.contacts.destroy,
+			onDestroy: app.contacts.onDestroy,
+
+			redirectTo: '/contacts/list',
+			redirectPushState: false,
 
 			children: {
 				viewsSelector: '.content',
-				cacheViewsNum: 2,
+				cacheViewsNum: 1,
 
 				routes: [
+					{
+						// all contacts
+						path: '/list',
+						getTemplate: app.list.getTemplate,
+						onEnter: app.list.onEnter,
+						onLeave: app.list.onLeave,
+						callback: app.list.controller,
+						onDestroy: app.list.onDestroy
+					},
 					{
 						// contacts.detail
 						path: '/:contactId',
 						getTemplate: app.contact.getTemplate,
+						onActive: app.contact.onActive,
 						onEnter: app.contact.onEnter,
 						onLeave: app.contact.onLeave,
 						callback: app.contact.controller,
@@ -69,6 +90,7 @@ $(function() {
 	], {
 		viewsSelector: '.bdy .container',
 		viewClass: 'page-view-float',
+		cacheViewsNum: 2,
 		// aniClass: 'turn',
 		error: function() {
 			M.router.navigate('/');

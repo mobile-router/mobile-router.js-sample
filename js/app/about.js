@@ -24,7 +24,7 @@
 	}
 
 	function destroy() {
-		console.log('about controller', arguments, this);
+		console.log('about destroy', arguments, this);
 	}
 
 	app.about = {

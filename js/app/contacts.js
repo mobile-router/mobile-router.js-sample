@@ -17,16 +17,11 @@
 				'</ul>',
 			'</div>',
 			'<div class="content">',
-				'<div>',
-					'<h2>All Contacts</h2>',
-					'<ul>' + buildContacts(3) + '</ul>',
-				'</div>',
 			'</div>'
 		].join('');
 	}
 	function onEnter() {
 		console.log('contacts onEnter', arguments, this);
-		app.contacts.checkNav('contacts');
 		app.home.checkNav('contacts');
 	}
 	function onLeave() {
@@ -51,6 +46,29 @@
 			var nav = $('.aside .nav-list');
 			nav.find('a').removeClass('active');
 			href && nav.find('a[href="' + href + '"]').addClass('active');
+		}
+	};
+
+	app.list = {
+		getTemplate: function() {
+			return [
+				'<h2>All Contacts</h2>',
+				'<ul>' + buildContacts(3) + '</ul>'
+			].join('');
+		},
+		onEnter: function() {
+			console.log('contacts list onEnter', arguments, this);
+			app.contacts.checkNav('contacts');
+		},
+		onLeave: function() {
+			console.log('contacts list onLeave', arguments, this);
+			app.contacts.checkNav(' ');
+		},
+		controller: function() {
+			console.log('contacts list controller', arguments, this);
+		},
+		destroy: function() {
+			console.log('contacts list destroy', arguments, this);
 		}
 	};
 

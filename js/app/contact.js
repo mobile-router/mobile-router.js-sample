@@ -9,13 +9,15 @@
 		return ret;
 	}
 	function getTemplate() {
-		var id = this.params.contactId;
-		var contact = app.contactsService.currentContact(id);
+		var contact = app.contactsService.currentContact(this.params.contactId);
 		return [
 			'<h2>' + contact.name + '</h2>',
 			'<ul>' + buildItems(contact) + '</ul>',
 			'<div class="slideContent"></div>',
 		].join('');
+	}
+	function onActive(contactId) {
+		console.log('contact onActive', arguments, this);
 	}
 	function onEnter(contactId) {
 		console.log('contact onEnter', arguments, this);
@@ -27,6 +29,7 @@
 	}
 	function onLeave() {
 		console.log('contact onLeave', arguments, this);
+		app.contacts.checkNav(' ');
 	}
 	function destroy() {
 		console.log('contact destroy', arguments, this);
@@ -34,6 +37,7 @@
 
 	app.contact = {
 		getTemplate: getTemplate,
+		onActive: onActive,
 		onEnter: onEnter,
 		controller: controller,
 		onLeave: onLeave,
