@@ -839,10 +839,10 @@
 				if (args) {
 					_path = args.shift();
 					routeIns = el.ins(_path, query || {}, args, options);
-					var p = that, pr, element;
+					var p = that, pr, activeIns;
 					while (p && (pr = p.$parentRoute)) {
-						element = pr.ele();
-						if (!that.viewsContainer || !element || !pr.actived()) {
+						activeIns = pr.getActive();
+						if (!that.viewsContainer || !activeIns || routeIns.path.match(pr.$regexp)[0]!=activeIns.path) {
 							// 初始化 但是默认匹配到的是 子路由 需要初始化 父路由
 							that.$parent.route(routeIns.path, routeIns.query, M.extend({matchIns: routeIns}, options), path, function() {
 								delete that.$parent.pageViewState.options.matchIns;
@@ -888,17 +888,26 @@
 			}
 		},
 
-		_route: function(routeIns, cb) {
-			var route = routeIns.route;
-			var that = this;
-			// 缓存模板
-			var cacheTemplate = this.getOption(route, routeIns.options.state, 'cacheTemplate');
+		_getDefaultEle: function(routeIns) {
 			var id = M.getUIDByKey(routeIns.path);
 			var initView;
 			if (routeIns.options.first &&
 					(initView = this.viewsContainer.getElementsByClassName(defViewClass)[0]) &&
 					(!initView.id || initView.id === id)
 				) {
+				return initView;
+			}
+			return null;
+		},
+
+		_route: function(routeIns, cb) {
+			var route = routeIns.route;
+			var that = this;
+			// 缓存模板
+			var cacheTemplate = this.getOption(route, routeIns.options.state, 'cacheTemplate');
+			var id = M.getUIDByKey(routeIns.path);
+			var initView = this._getDefaultEle(routeIns);
+			if (initView) {
 				this.templateCache[routeIns.path] = initView.innerHTML;
 				cacheTemplate = true;
 			}
@@ -1000,7 +1009,7 @@
 		getTemplateCb: function(routeIns, template, cb) {
 			this.hideLoading();
 			routeIns._oldTemplate = this.templateCache[routeIns.path];
-			this.templateCache[routeIns.path] = template;
+			this.templateCache[routeIns.path] = template || '';
 
 			var that = this;
 			var options = routeIns.options; // 带过来的options
@@ -1009,7 +1018,7 @@
 			var id = M.getUIDByKey(routeIns.path);
 			if (first) {
 				options.first = first;
-				nowView = this.viewsContainer.getElementsByClassName(defViewClass)[0];
+				nowView = this._getDefaultEle(routeIns);
 				removeEle(this.maskEle);
 				if (this.viewsContainer && this.$parentRoute && this.viewsContainer !== this.$parentRoute.ele()) {
 					this.defaultTemplate = this.viewsContainer.innerHTML;
@@ -1167,7 +1176,7 @@
 				// reflow
 				ele.offsetWidth = ele.offsetWidth;
 				doCallback(pageViewState, 'onLeave');
-				pageViewState.route.actived(false);
+				pageViewState.route.setActive(-1);
 			}
 			
 			if (_pageViewEle) {
@@ -1218,9 +1227,9 @@
 				if (!_pageViewEle) {
 					endCall && endCall();
 					checkPageViews();
-					var curIndex = M.Array.indexOfByKey(that.pagesCache, that.pageViewState, 'path');
-					curIndex >= 0 && that.pagesCache.splice(curIndex, 1);
-					that.pageViewState.route.destroyIns(that.pageViewState);
+					// var curIndex = M.Array.indexOfByKey(that.pagesCache, that.pageViewState, 'path');
+					// curIndex >= 0 && that.pagesCache.splice(curIndex, 1);
+					// that.pageViewState.route.destroyIns(that.pageViewState);
 					that.pageViewState = null;
 					that.defaultTemplate && M.innerHTML(that.viewsContainer, that.defaultTemplate);
 					return;
@@ -1335,11 +1344,10 @@
 		this.instances = [];
 		this.path = path;
 		this.activeIndex = -1;
-		this._actived = false;
 
 		// parse opts
 		M.each([
-			'cacheTemplate', 'viewClass', 'redirectTo', 'redirectPushState',
+			'cacheTemplate', 'animation', 'aniClass', 'redirectTo', 'redirectPushState',
 			'callback', 'getTemplate', 'onActive', 'onDestroy', 'onEnter', 'onLeave',
 			'regexp', '$regexp', 'keys', 'parentArgsLen'
 		], function(k) {
@@ -1404,7 +1412,6 @@
 
 		setActive: function(index) {
 			this.activeIndex = index;
-			this.actived(this.getIns(index));
 		},
 
 		setRouteView: function(routeView) {
@@ -1414,11 +1421,6 @@
 		ele: function() {
 			var ins = this.getActive() || null;
 			return ins && ins.element;
-		},
-
-		actived: function(v) {
-			if (M.isUndefined(v)) return this._actived;
-			this._actived = !!v;
 		},
 
 		destroyIns: function(ins) {
@@ -1564,6 +1566,7 @@
 				path = route.path;
 				var len = 0;
 				if (basePath) {
+					if (basePath === '/') basePath = '';
 					path = basePath + path;
 					if (parentRoute.parentArgsLen) {
 						len += parentRoute.parentArgsLen;
