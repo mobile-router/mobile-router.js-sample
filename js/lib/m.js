@@ -530,7 +530,7 @@
 			if (e.which > 1 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
 				return true;
 			}
-
+			
 			var targetEle = e.target;
 			var hrefTarget = M.getHrefAndTarget(targetEle);
 			targetEle = hrefTarget.target;
@@ -580,7 +580,7 @@
 			if (state.url === History.getCurrentState().url) return;
 			// 如果是允许pushstate 且其dataset中不包含href的话才会改变history
 			// 规则就是：
-			// data-href="newUrl"会被认为是在当前页中切换，也就是局部禁用pushstate
+			// data-href="newUrl"会被认为是在当前页中切换，也就是局部禁用pushstate 
 			if (this.options.enablePushState && M.isUndefined(state.data.href) && state.url !== M.location.href) {
 				history[state.replace == 'true' ? 'replaceState' : 'pushState'](state, state.title, state.url);
 			}
