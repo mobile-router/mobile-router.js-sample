@@ -35,17 +35,14 @@ $(function() {
 			callback: app.contacts.controller,
 			onDestroy: app.contacts.onDestroy,
 
-			redirectTo: '/contacts/list',
-			redirectPushState: false,
-
 			children: {
 				viewsSelector: '.content',
-				cacheViewsNum: 1,
+				cacheViewsNum: 3,
 
 				routes: [
 					{
 						// all contacts
-						path: '/list',
+						path: '/',
 						getTemplate: app.list.getTemplate,
 						onEnter: app.list.onEnter,
 						onLeave: app.list.onLeave,
@@ -105,7 +102,9 @@ $(function() {
 		console.log('routeChangeEnd', arguments);
 	});
 
-	M.history.start();
+	M.history.start({
+		history: true
+	  });
 	M.history.on('change', function(type, state, oldState) {
 		console.log('history', type, state, oldState);
 	});
